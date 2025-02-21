@@ -1,0 +1,19 @@
+{
+    "num_samples": 1040,
+    "warm_up": 0,
+    "pop_size": 200,
+    "num_generations": 50,
+    "mutation_rate": 0.15,
+    "decay_rate": 1,
+    "parent_fraction": 0.1,
+    "num_items": 4,
+    "max_s": 15,
+    "max_c": 25,
+    "max_S": 30,
+    "pallet_volume": [ 1.11, 1.02, 0.1, 2.15 ],
+    "container_volume": 28,
+    "holding_cost": 2.5,
+    "backorder_cost": 15.0,
+    "order_cost": 5000.0,
+    "lead_time": 20
+}
