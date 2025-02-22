@@ -131,7 +131,7 @@ def simulate_policy(demand_distribution, policies, setup):
                 inventory_level[i] -= demand
             else:
                 total_demand_met += inventory_level[i]  # Partial demand fulfillment
-                total_cost += -(demand-inventory_level[i]) * backorder_cost
+                total_cost += (demand-inventory_level[i]) * backorder_cost
                 inventory_level[i] = 0  # Set inventory level to zero
 
             s, c, S = policies[i]

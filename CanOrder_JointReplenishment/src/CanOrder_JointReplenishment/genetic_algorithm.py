@@ -225,7 +225,7 @@ def genetic_algorithm(demand_distribution, setup):
 
         # Progress bar
         progress = (generation + 1) / num_generations * 100
-        sys.stdout.write(f'\rGeneration {generation + 1}/{num_generations} - Progress: {progress:.2f}% - Time for evaluation: {generation_time:.2f} seconds     ')
+        sys.stdout.write(f'\rGeneration {generation + 1}/{num_generations} - Progress: {progress:.2f}% - Last generation evaluation time: {generation_time:.2f} seconds     ')
         sys.stdout.flush()
 
     print()  # Move to the next line after the progress bar is done
