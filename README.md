@@ -1,4 +1,4 @@
-# Can Order (s, c, S) Joint Replenishment Policy Generater
+# Can Order (s, c, S) Joint Replenishment Policy Generator
 
 ## Overview
 Using a genetic algorithm, this code uses a cost function to determine efficient feasible (s, c, S) policies. The project samples from an empirical demand distribution and simulates the total cost per period using holding, ordering, and backorder costs.
