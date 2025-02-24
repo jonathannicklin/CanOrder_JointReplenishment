@@ -112,6 +112,9 @@ def simulate_policy(demand_distribution, policies, setup):
     total_cost = 0
     total_demand = 0
     total_demand_met = 0
+    total_containers = 0
+    total_orders = 0
+    container_fill_rate = 0
 
     for j in range(num_samples):
 
@@ -162,16 +165,26 @@ def simulate_policy(demand_distribution, policies, setup):
             for i in range(num_items):
                 total_volume += pallet_volume[i] * pipeline_inventory[i, -1]
             total_cost += np.ceil(total_volume / container_volume) * order_cost
+
+            # Update container fill rate, total container and order counter metrics
+            total_orders += 1
+
+            if total_volume / container_volume > 1:
+                for _ in range(int(np.floor(total_volume / container_volume))):
+                    container_fill_rate += 1
+            container_fill_rate += total_volume / container_volume
+
+            total_containers += np.ceil(total_volume / container_volume)
             
         # Update pipeline inventory
         inventory_level += pipeline_inventory[:, 0]
         pipeline_inventory[:, 0] = 0
         pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
 
-    # Calculate the service level
+    # Calculate the metrics
     service_level = 100 * (total_demand_met / total_demand) if total_demand > 0 else 1.0
-
-    # Calculate total cost
+    container_fill_rate = container_fill_rate / total_containers if total_containers > 0 else 0
+    periodicity = np.float64(total_orders / num_samples)
     total_cost = total_cost / num_samples
 
-    return total_cost, service_level
+    return total_cost, service_level, container_fill_rate, periodicity

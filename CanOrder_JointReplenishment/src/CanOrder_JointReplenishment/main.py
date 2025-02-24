@@ -21,10 +21,16 @@ def main():
     # Run the genetic algorithm to get the best policies
     best_policies = genetic_algorithm(demand_distribution, setup)
     
+    # Save the best policies to a .txt file
+    with open('best_policies.txt', 'w') as file:
+        file.write("Best Policies, Costs, and Service Levels:\n")
+        for policies, cost, service_level, container_fill_rate, periodicity in best_policies:
+            file.write(f"Policies: {policies}, Cost = {cost:.2f}, Service Level = {service_level:.2f}%, Fill Rate = {container_fill_rate:.2f}%, Periodicity = {periodicity:.2f}\n")
+    
     # Print the top 10 best policies along with their costs and service levels
     print("Top 10 Best Policies, Costs, and Service Levels:")
-    for policies, cost, service_level in best_policies:
-        print(f"Policies: {policies}, Cost = {cost:.2f}, Service Level = {service_level:.2f}%")
+    for policies, cost, service_level, container_fill_rate, periodicity in best_policies:
+        print(f"Policies: {policies}, Cost = {cost:.2f}, Service Level = {service_level:.2f}%, Fill Rate = {container_fill_rate:.2f}%, Periodicity = {periodicity:.2f}")
 
 if __name__ == "__main__":
     main()

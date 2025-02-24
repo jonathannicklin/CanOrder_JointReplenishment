@@ -13,8 +13,7 @@ def initialize_population(pop_size, num_items, setup):
     Parameters:
         pop_size (int): Size of the population.
         num_items (int): Number of items.
-        setup (dict): Dictionary containing setup parameters:
-            - 'review_period' (int): Review period for the policies.
+        setup (dict): Dictionary containing setup parameters.
     
     Returns:
         list: A list of policy combinations for the population.
@@ -61,14 +60,45 @@ def evaluate_fitness(population, demand_distribution, setup):
         
         # Collect results as they finish
         for future in concurrent.futures.as_completed(futures):
-            cost, service_level = future.result()
+            cost, service_level, container_fill_rate, periodicity = future.result()
             # Add the policy, cost, and service level to the fitness_scores list
-            fitness_scores.append((population[futures.index(future)], cost, service_level))
+            fitness_scores.append((population[futures.index(future)], cost, service_level, container_fill_rate, periodicity))
 
     # Sort by the cost (using the external function instead of lambda)
     fitness_scores.sort(key=sort_by_cost)
 
     return fitness_scores
+
+''' 
+
+# Useful for debugging (when needing to step into e.g. simulation.py)
+
+def evaluate_fitness(population, demand_distribution, setup):
+    """
+    Evaluate the fitness of each policy combination in the population.
+    
+    Parameters:
+        population (list): List of policy combinations.
+        demand_distribution (numpy.ndarray): Empirical demand distribution for items.
+        setup (dict): Dictionary containing setup parameters.
+    
+    Returns:
+        list: A list of tuples containing policy combinations and their corresponding costs and service levels.
+    """
+    fitness_scores = []
+
+    # Loop through each policy in the population and evaluate its fitness
+    for policies in population:
+        # Simulate the policy and get the cost and service level
+        cost, service_level, container_fill_rate, peroidicity = simulate_policy(demand_distribution, policies, setup)
+        # Add the policy, cost, and service level to the fitness_scores list
+        fitness_scores.append((policies, cost, service_level, container_fill_rate, peroidicity))
+
+    # Sort by the cost (using the external function instead of lambda)
+    fitness_scores.sort(key=sort_by_cost)
+
+    return fitness_scores
+    '''
 
 def select_parents(fitness_scores, num_parents):
     """
@@ -124,7 +154,6 @@ def crossover(parents, num_offspring):
                 max_S = max(p1_item[2], p2_item[2])
                 S = int(random.uniform(max_c, max_S))
 
-
             child.append([s, c, S])  # Add the new valid policy to the child
 
         offspring.append(child)
@@ -138,8 +167,7 @@ def mutate(offspring, mutation_rate, setup):
     Parameters:
         offspring (list): List of policy combinations generated from crossover.
         mutation_rate (float): Probability of mutation for each policy.
-        setup (dict): Dictionary containing setup parameters:
-            - 'review_period' (int): Review period for the policies.
+        setup (dict): Dictionary containing setup parameters.
     
     Returns:
         list: A list of mutated policy combinations.
@@ -168,11 +196,6 @@ def genetic_algorithm(demand_distribution, setup):
     Parameters:
         demand_distribution (numpy.ndarray): Empirical demand distribution for items.
         setup (dict): Dictionary containing setup parameters.
-        pop_size (int, optional): Initial population size.
-        num_generations (int, optional): Number of generations to run the algorithm.
-        mutation_rate (float, optional): Probability of mutation for each policy.
-        decay_rate (float, optional): Rate at which the population size decreases each generation.
-        parent_fraction (float, optional): Fraction of the population selected as parents.
     
     Returns:
         list: A list of the best policy combinations after running the genetic algorithm.
@@ -236,6 +259,6 @@ def genetic_algorithm(demand_distribution, setup):
     fig.savefig('GeneticAlgorithm_Convergence', dpi=300)
 
     # Return the best policies
-    best_policies = select_parents(evaluate_fitness(population, demand_distribution, setup), 10)
-    return best_policies
+    best_policies = select_parents(fitness_scores, num_parents)
 
+    return best_policies

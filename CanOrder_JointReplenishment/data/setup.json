@@ -2,7 +2,7 @@
     "num_samples": 1040,
     "warm_up": 0,
     "pop_size": 500,
-    "num_generations": 100,
+    "num_generations": 50,
     "mutation_rate": 0.2,
     "decay_rate": 1,
     "parent_fraction": 0.1,
