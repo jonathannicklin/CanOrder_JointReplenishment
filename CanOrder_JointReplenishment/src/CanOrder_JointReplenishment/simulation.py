@@ -80,7 +80,7 @@ def simulate_policy(demand_distribution, policies, setup):
                 raise ValueError("demand cannot be negative!")
 
             total_demand += demand
-            inventory_position -= demand
+            inventory_position[i] -= demand
 
             if inventory_position[i] < 0:
                 inventory_position[i] = 0
@@ -90,7 +90,6 @@ def simulate_policy(demand_distribution, policies, setup):
                 inventory_level[i] -= demand
             else:
                 total_demand_met += inventory_level[i]  # Partial demand fulfillment
-                total_cost += -(demand-inventory_level[i]) * backorder_cost
                 inventory_level[i] = 0  # Set inventory level to zero
 
             s, c, S = policies[i]
@@ -107,9 +106,16 @@ def simulate_policy(demand_distribution, policies, setup):
                 # Check if an item is included
                 if inventory_position[i] <= c:
                     order_quantity = S - inventory_position[i]
+                    inventory_position[i] += order_quantity
 
                     # Add order to pipeline inventory
                     pipeline_inventory[i, lead_time - 1] += order_quantity
+
+        # Update pipeline inventory
+        for i in range(num_items):
+            inventory_level += pipeline_inventory[:, 0]
+            pipeline_inventory[:, 0] = 0
+            pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
 
         # Do not count costs in warm-up!
     
@@ -177,7 +183,6 @@ def simulate_policy(demand_distribution, policies, setup):
             total_orders += 1
             total_containers += np.ceil(total_volume / container_volume)
             container_fill_rate += total_volume / container_volume / np.ceil(total_volume / container_volume)
-            
             
         # Update physical and pipeline inventory
         inventory_level += pipeline_inventory[:, 0]
