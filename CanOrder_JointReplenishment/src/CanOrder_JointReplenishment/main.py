@@ -30,7 +30,7 @@ def main():
     # Print the top 10 best policies along with their costs and service levels
     print("Top 10 Best Policies, Costs, and Service Levels:")
     for policies, cost, service_level, container_fill_rate, periodicity in best_policies:
-        print(f"Policies: {policies}, Cost = {cost:.2f}, Service Level = {service_level:.2f}%, Fill Rate = {container_fill_rate:.2f}%, Periodicity = {periodicity:.2f}")
+        print(f"Policies: {policies}, Cost = {cost:.2f}, Service Level = {service_level:.2f}%, Fill Rate = {container_fill_rate:.2f}%, Periodicity = {periodicity:.3f}")
 
 if __name__ == "__main__":
     main()

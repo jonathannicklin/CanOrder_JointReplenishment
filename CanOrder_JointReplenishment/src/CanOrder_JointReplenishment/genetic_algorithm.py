@@ -39,6 +39,8 @@ def initialize_population(pop_size, num_items, setup):
 def sort_by_cost(fitness_tuple):
     return fitness_tuple[1]
 
+
+
 def evaluate_fitness(population, demand_distribution, setup):
     """
     Evaluate the fitness of each policy combination in the population.
@@ -69,7 +71,8 @@ def evaluate_fitness(population, demand_distribution, setup):
 
     return fitness_scores
 
-''' 
+
+'''
 
 # Useful for debugging (when needing to step into e.g. simulation.py)
 
@@ -98,7 +101,7 @@ def evaluate_fitness(population, demand_distribution, setup):
     fitness_scores.sort(key=sort_by_cost)
 
     return fitness_scores
-    '''
+ '''
 
 def select_parents(fitness_scores, num_parents):
     """

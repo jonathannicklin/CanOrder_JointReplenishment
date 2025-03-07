@@ -62,6 +62,7 @@ def simulate_policy(demand_distribution, policies, setup):
     # Initialize inventory for each item
     initial_inventory = [np.sum(np.random.choice(demand_distribution[i], size = 2 * lead_time)) for i in range(num_items)]
     inventory_level = initial_inventory[:]
+    inventory_position = initial_inventory[:]
     
     # Initialize pipeline inventory (2D array)
     pipeline_inventory = np.zeros((num_items, lead_time))
@@ -79,6 +80,10 @@ def simulate_policy(demand_distribution, policies, setup):
                 raise ValueError("demand cannot be negative!")
 
             total_demand += demand
+            inventory_position -= demand
+
+            if inventory_position[i] < 0:
+                inventory_position[i] = 0
 
             if inventory_level[i] >= demand:
                 total_demand_met += demand
@@ -90,7 +95,7 @@ def simulate_policy(demand_distribution, policies, setup):
 
             s, c, S = policies[i]
 
-            if inventory_level[i] <= s:
+            if inventory_position[i] <= s:
                 order_indicator = True
 
         # Determine order amounts           
@@ -100,8 +105,8 @@ def simulate_policy(demand_distribution, policies, setup):
                 s, c, S = policies[i]
 
                 # Check if an item is included
-                if inventory_level[i] <= c:
-                    order_quantity = S - inventory_level[i]
+                if inventory_position[i] <= c:
+                    order_quantity = S - inventory_position[i]
 
                     # Add order to pipeline inventory
                     pipeline_inventory[i, lead_time - 1] += order_quantity
@@ -128,18 +133,19 @@ def simulate_policy(demand_distribution, policies, setup):
                 raise ValueError("demand cannot be negative!")
 
             total_demand += demand
+            inventory_position[i] -= demand
 
             if inventory_level[i] >= demand:
                 total_demand_met += demand
                 inventory_level[i] -= demand
             else:
                 total_demand_met += inventory_level[i]  # Partial demand fulfillment
-                total_cost += (demand-inventory_level[i]) * backorder_cost
+                total_cost += (demand-inventory_level[i]) * backorder_cost # more like a penalty cost
                 inventory_level[i] = 0  # Set inventory level to zero
 
             s, c, S = policies[i]
 
-            if inventory_level[i] <= s:
+            if inventory_position[i] <= s:
                 order_indicator = True
 
         # Determine order amounts           
@@ -149,8 +155,9 @@ def simulate_policy(demand_distribution, policies, setup):
                 s, c, S = policies[i]
 
                 # Check if an item is included
-                if inventory_level[i] <= c:
-                    order_quantity = S - inventory_level[i]
+                if inventory_position[i] <= c:
+                    order_quantity = S - inventory_position[i]
+                    inventory_position[i] += order_quantity
 
                     # Add order to pipeline inventory
                     pipeline_inventory[i, lead_time - 1] += order_quantity
@@ -168,22 +175,18 @@ def simulate_policy(demand_distribution, policies, setup):
 
             # Update container fill rate, total container and order counter metrics
             total_orders += 1
-
-            if total_volume / container_volume > 1:
-                for _ in range(int(np.floor(total_volume / container_volume))):
-                    container_fill_rate += 1
-            container_fill_rate += total_volume / container_volume
-
             total_containers += np.ceil(total_volume / container_volume)
+            container_fill_rate += total_volume / container_volume / np.ceil(total_volume / container_volume)
             
-        # Update pipeline inventory
+            
+        # Update physical and pipeline inventory
         inventory_level += pipeline_inventory[:, 0]
         pipeline_inventory[:, 0] = 0
         pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
 
     # Calculate the metrics
     service_level = 100 * (total_demand_met / total_demand) if total_demand > 0 else 1.0
-    container_fill_rate = container_fill_rate / total_containers if total_containers > 0 else 0
+    container_fill_rate = container_fill_rate / total_orders if total_orders > 0 else 0
     periodicity = np.float64(total_orders / num_samples)
     total_cost = total_cost / num_samples
 
