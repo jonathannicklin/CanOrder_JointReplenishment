@@ -1,6 +1,8 @@
 import numpy as np
 import json
 
+from pandas.core.arrays import period
+
 def load_setup(file_path):
     """
     Load setup configuration from a JSON file.
@@ -79,18 +81,15 @@ def simulate_policy(demand_distribution, policies, setup):
             if demand < 0:
                 raise ValueError("demand cannot be negative!")
 
-            total_demand += demand
             inventory_position[i] -= demand
-
-            if inventory_position[i] < 0:
-                inventory_position[i] = 0
+            inventory_level[i] += pipeline_inventory[i, 0] - demand
 
             if inventory_level[i] >= demand:
                 total_demand_met += demand
-                inventory_level[i] -= demand
             else:
-                total_demand_met += inventory_level[i]  # Partial demand fulfillment
-                inventory_level[i] = 0  # Set inventory level to zero
+                total_demand_met += max(0,inventory_level[i])  # Partial demand fulfillment
+                total_cost += (demand-inventory_level[i]) * backorder_cost # more like a penalty cost
+                # inventory_level[i] = 0  # when lost sales is active
 
             s, c, S = policies[i]
 
@@ -112,10 +111,8 @@ def simulate_policy(demand_distribution, policies, setup):
                     pipeline_inventory[i, lead_time - 1] += order_quantity
 
         # Update pipeline inventory
-        for i in range(num_items):
-            inventory_level += pipeline_inventory[:, 0]
-            pipeline_inventory[:, 0] = 0
-            pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
+        pipeline_inventory[:, 0] = 0
+        pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
 
         # Do not count costs in warm-up!
     
@@ -140,14 +137,14 @@ def simulate_policy(demand_distribution, policies, setup):
 
             total_demand += demand
             inventory_position[i] -= demand
+            inventory_level[i] += pipeline_inventory[i, 0] - demand
 
             if inventory_level[i] >= demand:
                 total_demand_met += demand
-                inventory_level[i] -= demand
             else:
-                total_demand_met += inventory_level[i]  # Partial demand fulfillment
+                total_demand_met += max(0,inventory_level[i])  # Partial demand fulfillment
                 total_cost += (demand-inventory_level[i]) * backorder_cost # more like a penalty cost
-                inventory_level[i] = 0  # Set inventory level to zero
+                # inventory_level[i] = 0  # when lost sales is active
 
             s, c, S = policies[i]
 
@@ -170,7 +167,8 @@ def simulate_policy(demand_distribution, policies, setup):
         
         # Add holding costs
         for i in range(num_items):
-            total_cost += inventory_level[i] * holding_cost
+            if inventory_level[i] > 1:
+                total_cost += inventory_level[i] * holding_cost
         
         # Add ordering costs
         if np.any(pipeline_inventory[:, -1] != 0):
@@ -182,17 +180,17 @@ def simulate_policy(demand_distribution, policies, setup):
             # Update container fill rate, total container and order counter metrics
             total_orders += 1
             total_containers += np.ceil(total_volume / container_volume)
-            container_fill_rate += total_volume / container_volume / np.ceil(total_volume / container_volume)
-            
+            container_fill_rate += total_volume / (container_volume * np.ceil(total_volume / container_volume))
+
         # Update physical and pipeline inventory
-        inventory_level += pipeline_inventory[:, 0]
         pipeline_inventory[:, 0] = 0
         pipeline_inventory = np.roll(pipeline_inventory, shift=-1, axis=1)
-
+        
     # Calculate the metrics
     service_level = 100 * (total_demand_met / total_demand) if total_demand > 0 else 1.0
-    container_fill_rate = container_fill_rate / total_orders if total_orders > 0 else 0
+    containers_per_order = total_containers / total_orders if total_orders > 0 else 0
+    container_fill_rate = container_fill_rate / total_containers if total_containers > 0 else 0
     periodicity = np.float64(total_orders / num_samples)
     total_cost = total_cost / num_samples
 
-    return total_cost, service_level, container_fill_rate, periodicity
+    return total_cost, service_level, container_fill_rate, periodicity, containers_per_order

@@ -62,9 +62,9 @@ def evaluate_fitness(population, demand_distribution, setup):
         
         # Collect results as they finish
         for future in concurrent.futures.as_completed(futures):
-            cost, service_level, container_fill_rate, periodicity = future.result()
+            cost, service_level, container_fill_rate, periodicity, containers_per_order = future.result()
             # Add the policy, cost, and service level to the fitness_scores list
-            fitness_scores.append((population[futures.index(future)], cost, service_level, container_fill_rate, periodicity))
+            fitness_scores.append((population[futures.index(future)], cost, service_level, container_fill_rate, periodicity, containers_per_order))
 
     # Sort by the cost (using the external function instead of lambda)
     fitness_scores.sort(key=sort_by_cost)
@@ -93,7 +93,7 @@ def evaluate_fitness(population, demand_distribution, setup):
     # Loop through each policy in the population and evaluate its fitness
     for policies in population:
         # Simulate the policy and get the cost and service level
-        cost, service_level, container_fill_rate, peroidicity = simulate_policy(demand_distribution, policies, setup)
+        cost, service_level, container_fill_rate, peroidicity, containers_per_order = simulate_policy(demand_distribution, policies, setup)
         # Add the policy, cost, and service level to the fitness_scores list
         fitness_scores.append((policies, cost, service_level, container_fill_rate, peroidicity))
 
@@ -101,7 +101,8 @@ def evaluate_fitness(population, demand_distribution, setup):
     fitness_scores.sort(key=sort_by_cost)
 
     return fitness_scores
- '''
+ 
+'''
 
 def select_parents(fitness_scores, num_parents):
     """

@@ -1,21 +1,21 @@
 Best Policies, Costs, and Service Levels:
-Policies: [[8, 35, 44], [7, 39, 42], [7, 31, 31], [1, 9, 11]], Cost = 631.81, Service Level = 98.24%, Fill Rate = 0.87%, Periodicity = 0.03
-Policies: [[8, 35, 44], [9, 39, 41], [7, 31, 31], [1, 9, 11]], Cost = 634.39, Service Level = 98.32%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [9, 44, 44], [7, 31, 31], [1, 9, 11]], Cost = 640.86, Service Level = 98.19%, Fill Rate = 0.89%, Periodicity = 0.02
-Policies: [[8, 33, 44], [7, 44, 44], [7, 31, 31], [1, 9, 11]], Cost = 642.29, Service Level = 98.28%, Fill Rate = 0.89%, Periodicity = 0.03
-Policies: [[8, 35, 44], [9, 39, 40], [7, 26, 31], [1, 9, 11]], Cost = 649.73, Service Level = 98.41%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 39, 41], [11, 31, 32], [1, 9, 11]], Cost = 649.94, Service Level = 98.12%, Fill Rate = 0.87%, Periodicity = 0.03
-Policies: [[8, 33, 44], [9, 39, 44], [7, 31, 31], [1, 9, 11]], Cost = 650.13, Service Level = 98.16%, Fill Rate = 0.88%, Periodicity = 0.02
-Policies: [[8, 35, 44], [7, 39, 42], [7, 31, 31], [1, 9, 11]], Cost = 650.35, Service Level = 98.02%, Fill Rate = 0.89%, Periodicity = 0.02
-Policies: [[8, 33, 44], [9, 39, 41], [7, 31, 31], [1, 9, 11]], Cost = 655.05, Service Level = 98.42%, Fill Rate = 0.87%, Periodicity = 0.03
-Policies: [[8, 33, 44], [8, 39, 41], [7, 31, 31], [1, 9, 11]], Cost = 655.76, Service Level = 98.10%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 39, 42], [7, 31, 32], [1, 9, 11]], Cost = 657.84, Service Level = 98.40%, Fill Rate = 0.89%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 39, 41], [7, 31, 32], [1, 9, 11]], Cost = 658.26, Service Level = 98.21%, Fill Rate = 0.89%, Periodicity = 0.03
-Policies: [[8, 35, 44], [9, 39, 41], [16, 29, 35], [1, 9, 11]], Cost = 658.73, Service Level = 98.25%, Fill Rate = 0.87%, Periodicity = 0.03
-Policies: [[8, 35, 44], [9, 39, 41], [7, 31, 31], [1, 9, 11]], Cost = 659.08, Service Level = 98.42%, Fill Rate = 0.90%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 39, 41], [7, 24, 32], [1, 9, 11]], Cost = 662.43, Service Level = 98.09%, Fill Rate = 0.89%, Periodicity = 0.03
-Policies: [[17, 32, 54], [8, 39, 42], [7, 31, 31], [1, 9, 11]], Cost = 663.58, Service Level = 98.55%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 39, 42], [7, 24, 32], [1, 9, 11]], Cost = 666.44, Service Level = 97.87%, Fill Rate = 0.90%, Periodicity = 0.03
-Policies: [[8, 33, 44], [9, 39, 41], [7, 31, 32], [1, 9, 11]], Cost = 666.78, Service Level = 97.83%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [7, 44, 44], [7, 31, 31], [1, 9, 11]], Cost = 666.80, Service Level = 98.36%, Fill Rate = 0.88%, Periodicity = 0.03
-Policies: [[8, 33, 44], [9, 39, 41], [11, 31, 32], [1, 9, 11]], Cost = 667.22, Service Level = 98.66%, Fill Rate = 0.86%, Periodicity = 0.03
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 419.38, Service Level = 85.87%, Fill Rate = 0.76, Periodicity = 0.044, Containers per Order = 1.07
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 419.77, Service Level = 83.09%, Fill Rate = 0.78, Periodicity = 0.046, Containers per Order = 1.02
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 425.96, Service Level = 82.98%, Fill Rate = 0.73, Periodicity = 0.047, Containers per Order = 1.06
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 435.44, Service Level = 84.77%, Fill Rate = 0.75, Periodicity = 0.050, Containers per Order = 1.02
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 436.40, Service Level = 84.74%, Fill Rate = 0.71, Periodicity = 0.048, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 438.72, Service Level = 82.38%, Fill Rate = 0.74, Periodicity = 0.049, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 439.53, Service Level = 84.13%, Fill Rate = 0.71, Periodicity = 0.047, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 442.42, Service Level = 83.79%, Fill Rate = 0.70, Periodicity = 0.046, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [4, 13, 15]], Cost = 448.78, Service Level = 82.17%, Fill Rate = 0.75, Periodicity = 0.049, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 450.31, Service Level = 81.18%, Fill Rate = 0.76, Periodicity = 0.048, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 451.73, Service Level = 82.45%, Fill Rate = 0.76, Periodicity = 0.050, Containers per Order = 1.02
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 452.29, Service Level = 82.40%, Fill Rate = 0.72, Periodicity = 0.051, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 453.06, Service Level = 81.09%, Fill Rate = 0.70, Periodicity = 0.047, Containers per Order = 1.10
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 453.37, Service Level = 82.59%, Fill Rate = 0.71, Periodicity = 0.048, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 454.92, Service Level = 82.45%, Fill Rate = 0.69, Periodicity = 0.047, Containers per Order = 1.10
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 455.36, Service Level = 81.50%, Fill Rate = 0.76, Periodicity = 0.049, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 458.28, Service Level = 81.93%, Fill Rate = 0.75, Periodicity = 0.047, Containers per Order = 1.04
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 458.76, Service Level = 82.98%, Fill Rate = 0.71, Periodicity = 0.048, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 460.18, Service Level = 82.15%, Fill Rate = 0.70, Periodicity = 0.048, Containers per Order = 1.08
+Policies: [[10, 24, 30], [10, 25, 30], [10, 22, 22], [6, 14, 15]], Cost = 460.97, Service Level = 82.30%, Fill Rate = 0.71, Periodicity = 0.049, Containers per Order = 1.06
