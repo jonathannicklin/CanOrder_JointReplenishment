@@ -167,7 +167,7 @@ def simulate_policy(demand_distribution, policies, setup):
         
         # Add holding costs
         for i in range(num_items):
-            if inventory_level[i] > 1:
+            if inventory_level[i] > 0:
                 total_cost += inventory_level[i] * holding_cost
         
         # Add ordering costs
